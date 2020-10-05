@@ -1,8 +1,3 @@
-data "azurerm_key_vault_secret" "mySecret" {
-  name      = "dev-state-key"
-  vault_uri = "https://az-tf-demo-kv.vault.azure.net/"
-}
-
 terraform {
   backend "azurerm" {
     storage_account_name  = "#{storage-account-name}#"
