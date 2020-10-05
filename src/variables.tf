@@ -1,7 +1,7 @@
 variable "prefix" {
-  default = "#{prefix}#"
+  default = "prefix"
 }
 
 variable "location" {
-  default  = "#{location}#"
+  default  = "Australia East"
 }
