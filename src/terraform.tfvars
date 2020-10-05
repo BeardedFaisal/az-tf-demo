@@ -1,2 +1,2 @@
-prefix = #{demo}#
+prefix = #{prefix}#
 location = #{location}#
