@@ -1,2 +1,2 @@
-prefix = #{prefix}#
-location = #{location}#
+prefix = "#{prefix}#"
+location = "#{location}#"
