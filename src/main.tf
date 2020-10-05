@@ -1,8 +1,24 @@
+terraform {
+  backend "azurerm" {
+    storage_account_name  = "aztfdemostatedev"
+    container_name        = "dev-state"
+    key                   = "terraform.tfstate"
+    access_key            = ${var.statekey} # we could put it as DevOps pipeline variable that is populated from Azure KV. 
+  }
+}
+
 provider "azurerm" {
   version = "=2.20.0"
   features {}
 }
 
+# Unique ID
+resource "random_integer" "ri" {
+  min = 10000
+  max = 99999
+}
+
+# Resource Group
 resource "azurerm_resource_group" "demo" {
   name     = "${var.prefix}-resources"
   location = "${var.location}"
@@ -12,8 +28,9 @@ resource "azurerm_resource_group" "demo" {
   }
 }
 
+# Storage Account
 resource "azurerm_storage_account" "demo" {
-  name                     = "637374939350000000"
+  name                     = "demotfaz${random_integer.ri.result}"
   resource_group_name      = azurerm_resource_group.demo.name
   location                 = azurerm_resource_group.demo.location
   account_tier             = "Standard"
@@ -24,7 +41,8 @@ resource "azurerm_storage_account" "demo" {
   }
 }
 
-resource "azurerm_app_service_plan" "demo" {
+# App Service Plan
+/*resource "azurerm_app_service_plan" "demo" {
   name                = "${var.prefix}-asp"
   resource_group_name = azurerm_resource_group.demo.name
   location            = azurerm_resource_group.demo.location
@@ -40,8 +58,9 @@ resource "azurerm_app_service_plan" "demo" {
   }
 } 
 
+# Function App
 resource "azurerm_function_app" "demo" {
-  name                        = "${var.prefix}-func-aztfdemoffk"
+  name                        = "${var.prefix}-func-demotfaz${random_integer.ri.result}"
   resource_group_name         = azurerm_resource_group.demo.name
   location                    = azurerm_resource_group.demo.location
   app_service_plan_id         = azurerm_app_service_plan.demo.id
@@ -54,7 +73,11 @@ resource "azurerm_function_app" "demo" {
     }
   }
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   tags = {
     source = "terraform"
   }
-}
+}*/
