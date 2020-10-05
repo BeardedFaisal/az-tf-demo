@@ -14,11 +14,6 @@ resource "azurerm_storage_account" "demo" {
   location                 = azurerm_resource_group.demo.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
-
-  network_rules {
-    default_action = "Deny"
-    ip_rules       = ["23.45.1.0/30"]
-  }
 }
 
 resource "azurerm_app_service_plan" "demo" {
@@ -32,3 +27,18 @@ resource "azurerm_app_service_plan" "demo" {
     size = "Y1"
   }
 } 
+
+resource "azurerm_function_app" "demo" {
+  name                        = "${var.prefix}-func-aztfdemoffk"
+  resource_group_name         = azurerm_resource_group.demo.name
+  location                    = azurerm_resource_group.demo.location
+  app_service_plan_id         = azurerm_app_service_plan.demo.id
+  storage_account_name        = azurerm_storage_account.demo.name
+  storage_account_access_key  = azurerm_storage_account.demo.primary_access_key
+
+  site_config {
+    ip_restriction {
+      ip_address  = "124.184.114.225/30"
+    }
+  }
+}
