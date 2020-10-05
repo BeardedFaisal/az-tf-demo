@@ -6,7 +6,6 @@ variable "location" {
   default  = "Australia East"
 }
 
-variable "rg_name"
-{
+variable "rgname" {
   default = "resource-group-name"
 }

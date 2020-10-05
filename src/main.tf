@@ -20,7 +20,7 @@ resource "random_integer" "ri" {
 
 # Resource Group
 resource "azurerm_resource_group" "demo" {
-  name     = "${var.rg_name}"
+  name     = "${var.rgname}"
   location = "${var.location}"
 
   tags = {
