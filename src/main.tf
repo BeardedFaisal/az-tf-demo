@@ -6,6 +6,10 @@ provider "azurerm" {
 resource "azurerm_resource_group" "demo" {
   name     = "${var.prefix}-resources"
   location = "${var.location}"
+
+  tags = {
+    source = "terraform"
+  }
 }
 
 resource "azurerm_storage_account" "demo" {
@@ -14,6 +18,10 @@ resource "azurerm_storage_account" "demo" {
   location                 = azurerm_resource_group.demo.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
+
+  tags = {
+    source = "terraform"
+  }
 }
 
 resource "azurerm_app_service_plan" "demo" {
@@ -25,6 +33,10 @@ resource "azurerm_app_service_plan" "demo" {
   sku {
     tier = "Dynamic"
     size = "Y1"
+  }
+
+  tags = {
+    source = "terraform"
   }
 } 
 
@@ -40,5 +52,9 @@ resource "azurerm_function_app" "demo" {
     ip_restriction {
       ip_address  = "124.184.114.225/30"
     }
+  }
+
+  tags = {
+    source = "terraform"
   }
 }
