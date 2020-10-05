@@ -1,9 +1,14 @@
+data "azurerm_key_vault_secret" "mySecret" {
+  name      = "dev-state-key"
+  vault_uri = "https://az-tf-demo-kv.vault.azure.net/"
+}
+
 terraform {
   backend "azurerm" {
-    storage_account_name  = "aztfdemostatedev"
-    container_name        = "dev-state"
+    storage_account_name  = "#{storage-account-name}#"
+    container_name        = "#{container-name}"
     key                   = "terraform.tfstate"
-    access_key            = ${var.statekey} # we could put it as DevOps pipeline variable that is populated from Azure KV. 
+    access_key            = "#{state-storage-access-key}#"
   }
 }
 
@@ -20,7 +25,7 @@ resource "random_integer" "ri" {
 
 # Resource Group
 resource "azurerm_resource_group" "demo" {
-  name     = "${var.prefix}-resources"
+  name     = "#{resource-group-name}#"
   location = "${var.location}"
 
   tags = {
