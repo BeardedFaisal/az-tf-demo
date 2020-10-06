@@ -20,8 +20,8 @@ resource "random_integer" "ri" {
 
 # Resource Group
 resource "azurerm_resource_group" "demo" {
-  name     = "${var.rgname}"
-  location = "${var.location}"
+  name     = var.rgname
+  location = var.location
 
   tags = {
     source = "terraform"
