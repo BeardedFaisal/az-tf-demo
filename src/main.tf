@@ -90,6 +90,13 @@ resource "azurerm_servicebus_namespace" "demo" {
   }
 }
 
+# Service Bus Queue
+resource "azurerm_servicebus_queue" "demo" {
+  name                = "tfex_servicebus_queue"
+  resource_group_name = azurerm_resource_group.demo.name
+  namespace_name      = azurerm_servicebus_namespace.demo.name
+}
+
 
 # App Service Plan
 /*resource "azurerm_app_service_plan" "demo" {
