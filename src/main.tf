@@ -48,8 +48,8 @@ resource "azurerm_app_service_plan" "demo" {
   resource_group_name = azurerm_resource_group.demo.name
 
   sku {
-    tier = "Basic"
-    size = "B1"
+    tier = "Free"
+    size = "F1"
   }
 }
 
@@ -62,6 +62,9 @@ resource "azurerm_app_service" "demo" {
 
   site_config {
     dotnet_framework_version = "v4.0"
+
+    #Ok - so it turned out that for Free/Shared tier this property has to be true else provisioning will fail.
+    use_32_bit_worker_process = true 
   }
 
   app_settings = {
