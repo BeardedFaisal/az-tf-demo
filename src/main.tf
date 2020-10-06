@@ -41,6 +41,7 @@ resource "azurerm_storage_account" "demo" {
   }
 }
 
+# App Service Plan
 resource "azurerm_app_service_plan" "demo" {
   name                = "demo-appserviceplan"
   location            = azurerm_resource_group.demo.location
@@ -52,8 +53,9 @@ resource "azurerm_app_service_plan" "demo" {
   }
 }
 
+# App Service
 resource "azurerm_app_service" "demo" {
-  name                = "demo-app-service"
+  name                = "demo-app-service${random_integer.ri.result}"
   location            = azurerm_resource_group.demo.location
   resource_group_name = azurerm_resource_group.demo.name
   app_service_plan_id = azurerm_app_service_plan.demo.id
@@ -73,6 +75,17 @@ resource "azurerm_app_service" "demo" {
   }
 }
 
+# Service Bus
+resource "azurerm_servicebus_namespace" "demo" {
+  name                = "tfex-servicebus-namespace${random_integer.ri.result}"
+  location            = azurerm_resource_group.demo.location
+  resource_group_name = azurerm_resource_group.demo.name
+  sku                 = "Basic"
+
+  tags = {
+    source = "terraform"
+  }
+}
 
 
 # App Service Plan
